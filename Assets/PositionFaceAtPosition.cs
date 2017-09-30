@@ -12,10 +12,11 @@ public class PositionFaceAtPosition : MonoBehaviour
 
     void Update()
     {
-        /*if (OpenCVFaceDetection.NormalizedFacePositions.Count == 0)
+        if (OpenCVFaceDetection.NormalizedFacePositions == null)
             return;
-
+        if (OpenCVFaceDetection.NormalizedFacePositions.Count == 0)
+            return;
+   
         transform.position = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePositions[0].x, OpenCVFaceDetection.NormalizedFacePositions[0].y, _camDistance));
-        */
     }
 }

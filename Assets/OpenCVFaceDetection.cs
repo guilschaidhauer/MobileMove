@@ -81,6 +81,7 @@ public class OpenCVFaceDetection : MonoBehaviour
                 theCircle.X = _faces[i].X;
                 theCircle.Y = _faces[i].Y;
                 theCircle.Radius = _faces[i].Radius;
+                NormalizedFacePositions.Add(new Vector2((_faces[i].X * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y)));
             }
         }
         _threadRunning = false;
