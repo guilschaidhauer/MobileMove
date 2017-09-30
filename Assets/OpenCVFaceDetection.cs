@@ -6,7 +6,7 @@ using System.Threading;
 
 public class OpenCVFaceDetection : MonoBehaviour
 {
-    public static List<Vector2> NormalizedFacePositions { get; private set; }
+    public static List<Vector3> NormalizedFacePositions { get; private set; }
     public static Vector2 CameraResolution;
 
     private static bool _ready;
@@ -51,7 +51,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
         CameraResolution = new Vector2(camWidth, camHeight);
         _faces = new CvCircle[_maxFaceDetectCount];
-        NormalizedFacePositions = new List<Vector2>();
+        NormalizedFacePositions = new List<Vector3>();
         OpenCVInterop.SetScale(DetectionDownScale);
         _ready = true;
 
@@ -78,10 +78,11 @@ public class OpenCVFaceDetection : MonoBehaviour
             NormalizedFacePositions.Clear();
             for (int i = 0; i < 1; i++)
             {
-                theCircle.X = _faces[i].X;
+                /*theCircle.X = _faces[i].X;
                 theCircle.Y = _faces[i].Y;
-                theCircle.Radius = _faces[i].Radius;
-                NormalizedFacePositions.Add(new Vector2((_faces[i].X * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y)));
+                theCircle.Radius = _faces[i].Radius;*/
+                Debug.Log(_faces[i].X + " - " + _faces[i].Y + " - " + _faces[i].Radius);
+                NormalizedFacePositions.Add(new Vector3(((camWidth - _faces[i].X) * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y), _faces[i].Radius));
             }
         }
         _threadRunning = false;
@@ -98,14 +99,15 @@ public class OpenCVFaceDetection : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
+        //Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
     }
 
     void OnDisable()
     {
+        _threadRunning = false;
         // If the thread is still running, we should shut it down,
         // otherwise it can prevent the game from exiting correctly.
-        if (_threadRunning)
+        /*if (_threadRunning)
         {
             // This forces the while loop in the ThreadedWork function to abort.
             _threadRunning = false;
@@ -113,8 +115,7 @@ public class OpenCVFaceDetection : MonoBehaviour
             // This waits until the thread exits,
             // ensuring any cleanup we do after this is safe. 
             _thread.Join();
-        }
-
+        }*/
         // Thread is guaranteed no longer running. Do other cleanup tasks.
     }
 }
