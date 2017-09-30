@@ -2,24 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using System.Threading; 
 
 public class OpenCVFaceDetection : MonoBehaviour
 {
     public static List<Vector2> NormalizedFacePositions { get; private set; }
     public static Vector2 CameraResolution;
 
-    /// <summary>
-    /// Downscale factor to speed up detection.
-    /// </summary>
-    private const int DetectionDownScale = 1;
-
-    private bool _ready;
-    private int _maxFaceDetectCount = 5;
-    private CvCircle[] _faces;
+    private static bool _ready;
     private static CvCircle theCircle;
+
+    bool _threadRunning;
+    Thread _thread;
 
     void Start()
     {
+        // Begin our heavy work on a new thread.
+        _thread = new Thread(ThreadedWork);
+        _thread.Start();
+    }
+
+    void ThreadedWork()
+    {
+        _threadRunning = true;
+        bool workDone = false;
+
+        int DetectionDownScale = 1;
+
+        int _maxFaceDetectCount = 5;
+        CvCircle[] _faces;
+
         int camWidth = 0, camHeight = 0;
         int result = OpenCVInterop.Init(ref camWidth, ref camHeight);
         if (result < 0)
@@ -36,15 +48,44 @@ public class OpenCVFaceDetection : MonoBehaviour
             return;
         }
 
-   
-       CameraResolution = new Vector2(camWidth, camHeight);
+
+        CameraResolution = new Vector2(camWidth, camHeight);
         _faces = new CvCircle[_maxFaceDetectCount];
         NormalizedFacePositions = new List<Vector2>();
         OpenCVInterop.SetScale(DetectionDownScale);
         _ready = true;
 
-        StartCoroutine("RandomizeFaces");
+        // This pattern lets us interrupt the work at a safe point if neeeded.
+        while (_threadRunning && !workDone)
+        {
+            //theCircle.X = 80;
+            //theCircle.Y = 80;
+            //theCircle.Radius = 80;
+
+            if (!_ready)
+                return;
+
+            int detectedFaceCount = 0;
+
+           unsafe
+            {
+                fixed (CvCircle* outFaces = _faces)
+                {
+                    OpenCVInterop.Detect(outFaces, _maxFaceDetectCount, ref detectedFaceCount);
+                }
+            }
+
+            NormalizedFacePositions.Clear();
+            for (int i = 0; i < 1; i++)
+            {
+                theCircle.X = _faces[i].X;
+                theCircle.Y = _faces[i].Y;
+                theCircle.Radius = _faces[i].Radius;
+            }
+        }
+        _threadRunning = false;
     }
+
 
     void OnApplicationQuit()
     {
@@ -59,38 +100,21 @@ public class OpenCVFaceDetection : MonoBehaviour
         Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
     }
 
-    void Foo()
+    void OnDisable()
     {
-        if (!_ready)
-            return;
-
-        int detectedFaceCount = 0;
-
-       unsafe
+        // If the thread is still running, we should shut it down,
+        // otherwise it can prevent the game from exiting correctly.
+        if (_threadRunning)
         {
-            fixed (CvCircle* outFaces = _faces)
-            {
-                OpenCVInterop.Detect(outFaces, _maxFaceDetectCount, ref detectedFaceCount);
-            }
+            // This forces the while loop in the ThreadedWork function to abort.
+            _threadRunning = false;
+
+            // This waits until the thread exits,
+            // ensuring any cleanup we do after this is safe. 
+            _thread.Join();
         }
 
-        NormalizedFacePositions.Clear();
-        for (int i = 0; i < 1; i++)
-        {
-            theCircle.X = _faces[i].X;
-            theCircle.Y = _faces[i].Y;
-            theCircle.Radius = _faces[i].Radius;
-        }
-    }
-
-    IEnumerator RandomizeFaces ()
-    {
-        float duration = Time.time + 3.0f;
-        while (true)
-        {
-            Foo();
-            yield return null;
-        }
+        // Thread is guaranteed no longer running. Do other cleanup tasks.
     }
 }
 
