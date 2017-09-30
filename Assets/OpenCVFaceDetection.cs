@@ -35,7 +35,9 @@ public class OpenCVFaceDetection : MonoBehaviour
             return;
         }
 
-        CameraResolution = new Vector2(camWidth, camHeight);
+        OpenCVInterop.UpdateFaces();
+
+       CameraResolution = new Vector2(camWidth, camHeight);
         _faces = new CvCircle[_maxFaceDetectCount];
         NormalizedFacePositions = new List<Vector2>();
         OpenCVInterop.SetScale(DetectionDownScale);
@@ -63,11 +65,15 @@ public class OpenCVFaceDetection : MonoBehaviour
                 OpenCVInterop.Detect(outFaces, _maxFaceDetectCount, ref detectedFaceCount);
             }
         }
-
+        
         NormalizedFacePositions.Clear();
-        for (int i = 0; i < detectedFaceCount; i++)
+        //Debug.Log(detectedFaceCount);
+       // Debug.Log(Time.time);
+        //for (int i = 0; i < detectedFaceCount; i++)
+        for (int i = 0; i < 1; i++)
         {
-            NormalizedFacePositions.Add(new Vector2((_faces[i].X * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y)));
+            Debug.Log(_faces[i].X + " |||| " + _faces[i].Y);
+            //NormalizedFacePositions.Add(new Vector2((_faces[i].X * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y)));
         }
     }
 }
@@ -77,6 +83,12 @@ internal static class OpenCVInterop
 {
     [DllImport("Win32Project1")]
     internal static extern int Init(ref int outCameraWidth, ref int outCameraHeight);
+
+    [DllImport("Win32Project1")]
+    internal static extern void StartThread();
+
+    [DllImport("Win32Project1")]
+    internal static extern void UpdateFaces();
 
     [DllImport("Win32Project1")]
     internal static extern int Close();
