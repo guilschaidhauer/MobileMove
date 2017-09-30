@@ -16,6 +16,7 @@ public class OpenCVFaceDetection : MonoBehaviour
     private bool _ready;
     private int _maxFaceDetectCount = 5;
     private CvCircle[] _faces;
+    private static CvCircle theCircle;
 
     void Start()
     {
@@ -35,9 +36,7 @@ public class OpenCVFaceDetection : MonoBehaviour
             return;
         }
 
-        
-       //OpenCVInterop.StartThread();
-
+   
        CameraResolution = new Vector2(camWidth, camHeight);
         _faces = new CvCircle[_maxFaceDetectCount];
         NormalizedFacePositions = new List<Vector2>();
@@ -45,7 +44,6 @@ public class OpenCVFaceDetection : MonoBehaviour
         _ready = true;
 
         StartCoroutine("RandomizeFaces");
-        //StartCoroutine("SetGuard");
     }
 
     void OnApplicationQuit()
@@ -58,37 +56,15 @@ public class OpenCVFaceDetection : MonoBehaviour
 
     void Update()
     {
-        /*if (!_ready)
-            return;
-
-        int detectedFaceCount = 0;
-        unsafe
-        {
-            fixed (CvCircle* outFaces = _faces)
-            {
-                OpenCVInterop.Detect(outFaces, _maxFaceDetectCount, ref detectedFaceCount);
-            }
-        }
-        
-        NormalizedFacePositions.Clear();
-        //Debug.Log(detectedFaceCount);
-       // Debug.Log(Time.time);
-        //for (int i = 0; i < detectedFaceCount; i++)
-        for (int i = 0; i < 1; i++)
-        {
-            Debug.Log(_faces[i].X + " |||| " + _faces[i].Y);
-            //NormalizedFacePositions.Add(new Vector2((_faces[i].X * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y)));
-        }*/
+        Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
     }
 
     void Foo()
     {
-        //if (!_ready)
-            //return;
+        if (!_ready)
+            return;
 
         int detectedFaceCount = 0;
-
-        Debug.Log("Fuck");
 
        unsafe
         {
@@ -99,13 +75,11 @@ public class OpenCVFaceDetection : MonoBehaviour
         }
 
         NormalizedFacePositions.Clear();
-        //Debug.Log(detectedFaceCount);
-        // Debug.Log(Time.time);
-        //for (int i = 0; i < detectedFaceCount; i++)
         for (int i = 0; i < 1; i++)
         {
-            Debug.Log(_faces[i].X + " |||| " + _faces[i].Y);
-            //NormalizedFacePositions.Add(new Vector2((_faces[i].X * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y)));
+            theCircle.X = _faces[i].X;
+            theCircle.Y = _faces[i].Y;
+            theCircle.Radius = _faces[i].Radius;
         }
     }
 
@@ -117,8 +91,6 @@ public class OpenCVFaceDetection : MonoBehaviour
             Foo();
             yield return null;
         }
-
-        // yield return null;
     }
 }
 
