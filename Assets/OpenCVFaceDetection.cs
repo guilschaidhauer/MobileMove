@@ -28,9 +28,10 @@ public class OpenCVFaceDetection : MonoBehaviour
         bool workDone = false;
 
         int DetectionDownScale = 1;
-
         int _maxFaceDetectCount = 5;
         CvCircle[] _faces;
+
+        int count = 0;
 
         int camWidth = 0, camHeight = 0;
         int result = OpenCVInterop.Init(ref camWidth, ref camHeight);
@@ -75,14 +76,21 @@ public class OpenCVFaceDetection : MonoBehaviour
                 }
             }
 
+            Debug.Log("Got data:");
+            //Debug.Log(_faces[0].X + " - " + _faces[0].Y + " - " + _faces[0].Radius);
+            //NormalizedFacePositions.Add(new Vector3(((camWidth - _faces[0].X) * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[0].Y * DetectionDownScale) / CameraResolution.y), _faces[0].Radius));
+
+
             NormalizedFacePositions.Clear();
             for (int i = 0; i < 1; i++)
             {
                 /*theCircle.X = _faces[i].X;
                 theCircle.Y = _faces[i].Y;
                 theCircle.Radius = _faces[i].Radius;*/
-                Debug.Log(_faces[i].X + " - " + _faces[i].Y + " - " + _faces[i].Radius);
-                NormalizedFacePositions.Add(new Vector3(((camWidth - _faces[i].X) * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y), _faces[i].Radius));
+               // Debug.Log(_faces[i].X + " - " + _faces[i].Y + " - " + _faces[i].Radius);
+                //Debug.Log("Got data:" + count);
+                //count++;
+                //NormalizedFacePositions.Add(new Vector3(((camWidth - _faces[i].X) * DetectionDownScale) / CameraResolution.x, 1f - ((_faces[i].Y * DetectionDownScale) / CameraResolution.y), _faces[i].Radius));
             }
         }
         _threadRunning = false;
@@ -95,11 +103,6 @@ public class OpenCVFaceDetection : MonoBehaviour
         {
             OpenCVInterop.Close();
         }
-    }
-
-    void Update()
-    {
-        //Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
     }
 
     void OnDisable()
