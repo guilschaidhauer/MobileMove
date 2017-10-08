@@ -97,7 +97,7 @@ public class OpenCVFaceDetection : MonoBehaviour
             //float x = ((float)350 * DetectionDownScale) / 640f;
             //float y = ((float)142 * DetectionDownScale) / 480f;
             //Debug.Log(x + " |||| " + y);
-            NormalizedFacePosition = new Vector2(((float)_faces[0].X * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
+            NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
            // NormalizedFacePosition = new Vector2((350 * DetectionDownScale) / 640, 1f - ((142 * DetectionDownScale) / 480));
         }
         _threadRunning = false;
@@ -105,6 +105,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
     void OnDisable()
     {
+        OnApplicationQuit();
         //_threadRunning = false;
         // If the thread is still running, we should shut it down,
         // otherwise it can prevent the game from exiting correctly.
