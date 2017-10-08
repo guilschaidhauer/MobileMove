@@ -16,18 +16,6 @@ public class PositionFaceAtPosition : MonoBehaviour
 
     void Update()
     {
-        /*if (OpenCVFaceDetection.NormalizedFacePositions == null)
-            return;
-        if (OpenCVFaceDetection.NormalizedFacePositions.Count == 0)
-            return;*/
-
-        Debug.Log(OpenCVFaceDetection.NormalizedFacePosition.x + " |||| " + OpenCVFaceDetection.NormalizedFacePosition.y);
-        //transform.position = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePositions[0].x, OpenCVFaceDetection.NormalizedFacePositions[0].y, _camDistance));
-        //transform.position = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, _camDistance));
-        //if (OpenCVFaceDetection.NormalizedFacePosition != Vector3.zero)
-        //transform.Translate(Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, _camDistance)), Space.World);
-        //transform.position = Camera.main.ViewportToWorldPoint(new Vector3(350, 142, 66/10));
-
         if (OpenCVFaceDetection.NormalizedFacePosition.x != 1 && OpenCVFaceDetection.NormalizedFacePosition.y != 1)
         {
             Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, _camDistance));
