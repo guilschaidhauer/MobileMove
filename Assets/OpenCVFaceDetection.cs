@@ -92,7 +92,12 @@ public class OpenCVFaceDetection : MonoBehaviour
                 }
             }
 
-            NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
+            theCircle.X = _faces[0].X;
+            theCircle.Y = _faces[0].Y;
+            theCircle.Radius = _faces[0].Radius;
+
+            //NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
+            NormalizedFacePosition = new Vector3(theCircle.X, theCircle.Y, theCircle.Radius);
         }
         _threadRunning = false;
     }
