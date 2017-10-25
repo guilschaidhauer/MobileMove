@@ -41,7 +41,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
+        Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Z + " - " + theCircle.Radius);
         if (destroy)
         {
             //Destroy(gameObject);
@@ -94,6 +94,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
             theCircle.X = _faces[0].X;
             theCircle.Y = _faces[0].Y;
+            theCircle.Z = _faces[0].Z;
             theCircle.Radius = _faces[0].Radius;
 
             //NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
@@ -154,5 +155,5 @@ internal static class OpenCVInterop
 [StructLayout(LayoutKind.Sequential, Size = 12)]
 public struct CvCircle
 {
-    public int X, Y, Radius;
+    public int X, Y, Z, Radius;
 }

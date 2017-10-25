@@ -2,6 +2,7 @@
 
 public class PositionFaceAtPosition : MonoBehaviour
 {
+    public float offset;
     public bool smooth = true;
     public float smoothTime = 0.1F;
     public Vector3 velocity = Vector3.zero;
@@ -26,14 +27,13 @@ public class PositionFaceAtPosition : MonoBehaviour
 
             if (smooth)
             {
-                //transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smoothTime);
-                Vector3 targetDir = pos - transform.position;
-                float step = speed * Time.deltaTime;
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-                Debug.DrawRay(transform.position, newDir, Color.red);
-                transform.rotation = Quaternion.LookRotation(newDir);
                 Debug.Log(pos);
-                //transform.Rotate(pos);
+
+                //transform.localEulerAngles = new Vector3(pos.y, pos.x + offset, -pos.z);
+                //transform.localEulerAngles = new Vector3(0, 0, -pos.z);
+                transform.localEulerAngles = new Vector3(0, pos.x + 35, 0);
+                //transform.localEulerAngles = new Vector3(pos.y - 10, 0, 0);
+                //transform.localEulerAngles = new Vector3(pos.y - 10, 0, -pos.z);
             }
             else
             {
