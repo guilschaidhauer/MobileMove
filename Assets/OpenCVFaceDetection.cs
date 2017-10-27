@@ -98,7 +98,7 @@ public class OpenCVFaceDetection : MonoBehaviour
             theCircle.Radius = _faces[0].Radius;
 
             //NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
-            NormalizedFacePosition = new Vector4((float)theCircle.X / 1000000f, (float)theCircle.Y / 1000000f, (float)theCircle.Z / 1000000f, (float)theCircle.Radius / 1000000f);
+            NormalizedFacePosition = new Vector4(theCircle.X, theCircle.Y, theCircle.Z, theCircle.Radius);
         }
         _threadRunning = false;
     }
@@ -155,5 +155,5 @@ internal static class OpenCVInterop
 [StructLayout(LayoutKind.Sequential, Size = 16)]
 public struct CvCircle
 {
-    public int X, Y, Z, Radius;
+    public float X, Y, Z, Radius;
 }
