@@ -19,28 +19,13 @@ public class PositionFaceAtPosition : MonoBehaviour
 
     void Update()
     {
-        if (OpenCVFaceDetection.NormalizedFacePosition.x != 1 && OpenCVFaceDetection.NormalizedFacePosition.y != 1)
-        {
-            //Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, _camDistance));
-            Vector3 pos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
+        Vector3 pos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
+        //Vector3 pos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.z);
 
-            if (smooth)
-            {
-                //transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smoothTime);
-                Vector3 targetDir = pos - transform.position;
-                float step = speed * Time.deltaTime;
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-                Debug.DrawRay(transform.position, newDir, Color.red);
-                transform.rotation = Quaternion.LookRotation(newDir);
-                Debug.Log(pos);
-                //transform.Rotate(pos);
-            }
-            else
-            {
-                //transform.position = pos;
-            }
-        }
 
-        //Debug.Log(OpenCVFaceDetection.NormalizedFacePosition.x);
+        //Vector3 pos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.z * -1, 0, 26);
+
+
+        transform.rotation = Quaternion.Euler(pos);
     }
 }

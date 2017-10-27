@@ -41,7 +41,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
+        Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
         if (destroy)
         {
             //Destroy(gameObject);
