@@ -8,7 +8,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 {
     public bool destroy = false;
     public static List<Vector3> NormalizedFacePositions { get; private set; }
-    public static Vector3 NormalizedFacePosition { get; private set; }
+    public static Vector4 NormalizedFacePosition { get; private set; }
 
 
     /// <summary>
@@ -41,7 +41,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Z + " - " + theCircle.Radius);
+        //Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Z + " - " + theCircle.Radius);
         if (destroy)
         {
             //Destroy(gameObject);
@@ -98,7 +98,7 @@ public class OpenCVFaceDetection : MonoBehaviour
             theCircle.Radius = _faces[0].Radius;
 
             //NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
-            NormalizedFacePosition = new Vector3(theCircle.X, theCircle.Y, theCircle.Radius);
+            NormalizedFacePosition = new Vector4((float)theCircle.X / 1000000f, (float)theCircle.Y / 1000000f, (float)theCircle.Z / 1000000f, (float)theCircle.Radius / 1000000f);
         }
         _threadRunning = false;
     }

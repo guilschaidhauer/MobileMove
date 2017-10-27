@@ -2,45 +2,30 @@
 
 public class PositionFaceAtPosition : MonoBehaviour
 {
-    public bool smooth = true;
-    public float smoothTime = 0.1F;
-    public Vector3 velocity = Vector3.zero;
-
-    private float _camDistance;
-
-    public Transform target;
-    public float speed;
+    private Quaternion rot;
+    private Quaternion myGyro;
 
     void Start()
     {
         Application.runInBackground = true;
-        _camDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
+        //rot = new Quaternion(1, 1, 0, 0);
     }
 
     void Update()
     {
-        if (OpenCVFaceDetection.NormalizedFacePosition.x != 1 && OpenCVFaceDetection.NormalizedFacePosition.y != 1)
-        {
-            //Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, _camDistance));
-            Vector3 pos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
+        Vector4 myRot = new Vector4(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z, OpenCVFaceDetection.NormalizedFacePosition.w);
 
-            if (smooth)
-            {
-                //transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smoothTime);
-                Vector3 targetDir = pos - transform.position;
-                float step = speed * Time.deltaTime;
-                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-                Debug.DrawRay(transform.position, newDir, Color.red);
-                transform.rotation = Quaternion.LookRotation(newDir);
-                Debug.Log(pos);
-                //transform.Rotate(pos);
-            }
-            else
-            {
-                //transform.position = pos;
-            }
-        }
+        //Quaternion myGyro = new Quaternion(myRot.x, myRot.y, myRot.z, myRot.w);
+        //Quaternion myGyro = new Quaternion(myRot.x * -1, 0, 0, myRot.w);
+        //Quaternion myGyro = new Quaternion(0, myRot.y * -1, 0, myRot.w);
+        //Quaternion myGyro = new Quaternion(0, 0, myRot.z, myRot.w);
+        Quaternion myGyro = new Quaternion(myRot.x * -1, myRot.y * -1, 0, myRot.w);
 
-        //Debug.Log(OpenCVFaceDetection.NormalizedFacePosition.x);
+
+        //transform.localRotation = myGyro * rot;
+
+        transform.localRotation = myGyro;
+
+        Debug.Log(myRot);
     }
 }
