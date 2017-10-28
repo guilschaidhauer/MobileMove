@@ -140,13 +140,13 @@ public class OpenCVFaceDetection : MonoBehaviour
 // Define the functions which can be called from the .dll.
 internal static class OpenCVInterop
 {
-    [DllImport("Win32Project1")]
+    [DllImport("Win32Project2")]
     internal static extern int Init();
 
-    [DllImport("Win32Project1")]
+    [DllImport("Win32Project2")]
     internal static extern int Close();
 
-    [DllImport("Win32Project1")]
+    [DllImport("Win32Project2")]
     internal unsafe static extern void RunServer(CvCircle* outFaces);
 }
 
