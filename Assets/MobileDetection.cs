@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-public class OpenCVFaceDetection : MonoBehaviour
+public class MobileDetection : MonoBehaviour
 {
     public bool destroy = false;
     public static List<Vector3> NormalizedFacePositions { get; private set; }
@@ -42,12 +42,6 @@ public class OpenCVFaceDetection : MonoBehaviour
     void Update()
     {
         Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
-        if (destroy)
-        {
-            //Destroy(gameObject);
-            Finish();
-        }
-
     }
 
     void ThreadedWork()
@@ -117,23 +111,6 @@ public class OpenCVFaceDetection : MonoBehaviour
             _thread.Join();
         }
         // Thread is guaranteed no longer running. Do other cleanup tasks.
-    }
-
-    void Finish()
-    {
-        /*OnApplicationQuit();
-        //_threadRunning = false;
-        // If the thread is still running, we should shut it down,
-        // otherwise it can prevent the game from exiting correctly.
-        if (_threadRunning)
-        {
-            // This forces the while loop in the ThreadedWork function to abort.
-            _threadRunning = false;
-            // This waits until the thread exits,
-            // ensuring any cleanup we do after this is safe. 
-            _thread.Join();
-        }
-        // Thread is guaranteed no longer running. Do other cleanup tasks.*/
     }
 }
 

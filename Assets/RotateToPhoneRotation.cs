@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class PositionFaceAtPosition : MonoBehaviour
+public class RotateToPhoneRotation : MonoBehaviour
 {
     public float limit = 65;
     private bool rotating = true;
 
     public void Update()
     {
-        Vector3 pos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
+        Vector3 pos = new Vector3(MobileDetection.NormalizedFacePosition.x, MobileDetection.NormalizedFacePosition.y, MobileDetection.NormalizedFacePosition.z);
         //Vector3 newPos = new Vector3(pos.z * -1, 0, 0);
         //Vector3 newPos = new Vector3(0, 0, pos.y);
 
