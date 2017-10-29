@@ -41,7 +41,7 @@ public class MobileDetection : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
+        //Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
     }
 
     void ThreadedWork()

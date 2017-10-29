@@ -16,9 +16,14 @@ public class PositionFaceAtPosition : MonoBehaviour
 
     void Update()
     {
-        if (OpenCVFaceDetection.NormalizedFacePosition.x != 1 && OpenCVFaceDetection.NormalizedFacePosition.y != 1)
+        Vector3 cvPos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
+
+        if (cvPos == Vector3.zero)
+            return;
+
+        if (cvPos.x != 1 && cvPos.y != 1)
         {
-            Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, _camDistance));
+            Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, _camDistance));
             if (smooth)
                 transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smoothTime);
             else
