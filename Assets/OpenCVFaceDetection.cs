@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-public class MobileDetection : MonoBehaviour
+public class OpenCVFaceDetection : MonoBehaviour
 {
     public bool destroy = false;
     public static List<Vector3> NormalizedFacePositions { get; private set; }
@@ -35,13 +35,19 @@ public class MobileDetection : MonoBehaviour
     {
         if (_ready)
         {
-            SocketsInterop.Close();
+            OpenCVInterop.Close();
         }
     }
 
     void Update()
     {
         Debug.Log(theCircle.X + " - " + theCircle.Y + " - " + theCircle.Radius);
+        if (destroy)
+        {
+            //Destroy(gameObject);
+            Finish();
+        }
+
     }
 
     void ThreadedWork()
@@ -52,7 +58,7 @@ public class MobileDetection : MonoBehaviour
         CvCircle[] _faces;
 
 
-        int result = SocketsInterop.Init();
+        int result = OpenCVInterop.Init();
         if (result < 0)
         {
             if (result == -1)
@@ -82,16 +88,11 @@ public class MobileDetection : MonoBehaviour
             {
                 fixed (CvCircle* outFaces = _faces)
                 {
-                    SocketsInterop.RunServer(outFaces);
+                    OpenCVInterop.RunServer(outFaces);
                 }
             }
 
-            theCircle.X = _faces[0].X;
-            theCircle.Y = _faces[0].Y;
-            theCircle.Radius = _faces[0].Radius;
-
-            //NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
-            NormalizedFacePosition = new Vector3(theCircle.X, theCircle.Y, theCircle.Radius);
+            NormalizedFacePosition = new Vector2(((float)(848 - _faces[0].X) * DetectionDownScale) / 848f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
         }
         _threadRunning = false;
     }
@@ -112,17 +113,41 @@ public class MobileDetection : MonoBehaviour
         }
         // Thread is guaranteed no longer running. Do other cleanup tasks.
     }
+
+    void Finish()
+    {
+        /*OnApplicationQuit();
+        //_threadRunning = false;
+        // If the thread is still running, we should shut it down,
+        // otherwise it can prevent the game from exiting correctly.
+        if (_threadRunning)
+        {
+            // This forces the while loop in the ThreadedWork function to abort.
+            _threadRunning = false;
+            // This waits until the thread exits,
+            // ensuring any cleanup we do after this is safe. 
+            _thread.Join();
+        }
+        // Thread is guaranteed no longer running. Do other cleanup tasks.*/
+    }
 }
 
 // Define the functions which can be called from the .dll.
-internal static class SocketsInterop
+internal static class OpenCVInterop
 {
-    [DllImport("Win32Project2")]
+    [DllImport("Win32Project1")]
     internal static extern int Init();
 
-    [DllImport("Win32Project2")]
+    [DllImport("Win32Project1")]
     internal static extern int Close();
 
-    [DllImport("Win32Project2")]
+    [DllImport("Win32Project1")]
     internal unsafe static extern void RunServer(CvCircle* outFaces);
+}
+
+// Define the structure to be sequential and with the correct byte size (3 ints = 4 bytes * 3 = 12 bytes)
+[StructLayout(LayoutKind.Sequential, Size = 12)]
+public struct CvCircle
+{
+    public int X, Y, Radius;
 }
