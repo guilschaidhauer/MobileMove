@@ -15,10 +15,10 @@ public class RotateToPhoneRotation : MonoBehaviour
 
         //Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
 
-        if (pos.y > limit)
+        /*if (pos.y > limit)
             pos.y = limit;
         else if (pos.y < -limit)
-            pos.y = -limit;
+            pos.y = -limit;*/
 
         Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
 
