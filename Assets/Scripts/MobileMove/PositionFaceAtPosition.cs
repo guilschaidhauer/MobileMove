@@ -3,6 +3,8 @@
 public class PositionFaceAtPosition : MonoBehaviour
 {
     public bool smooth = true;
+    public bool useX = true;
+    public bool useY = true;
     public bool useZ = true;
     public float zOffset;
     public float smoothTime = 0.1F;
@@ -11,31 +13,25 @@ public class PositionFaceAtPosition : MonoBehaviour
     private float _camDistance;
 
     private Vector3 lastPos;
+    private Vector3 startPos;
+
+    void Awake ()
+    {
+        lastPos = Vector3.one;
+        startPos = transform.position;
+    }
 
     void Start()
     {
         Application.runInBackground = true;
         _camDistance = Vector3.Distance(Camera.main.transform.position, transform.position);
-        lastPos = Vector3.one;
     }
 
     void Update()
     {
         Vector3 cvPos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
 
-        float z = _camDistance;
-
-        if (useZ)
-        {
-            z = cvPos.z / 20f + zOffset;
-        }
-    
-        //if (cvPos == Vector3.zero)
-        //{
-        //    return;
-        //}
-
-        Debug.Log(cvPos.z);
+        cvPos.z = cvPos.z / 20f + zOffset;
 
         if (cvPos.x != 1 && cvPos.y != 1)
         {
@@ -49,15 +45,38 @@ public class PositionFaceAtPosition : MonoBehaviour
             else
             {
                 //pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, _camDistance));
-                pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, z));
+                pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, cvPos.z));
                 lastPos = pos;
             }
-
 
             if (smooth)
                 transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, smoothTime);
             else
                 transform.position = pos;
+
+            BlockAxis();
         }
+    }
+
+    void BlockAxis ()
+    {
+        Vector3 pos = transform.position;
+
+        if (!useX)
+        {
+            pos.x = startPos.x;
+        }
+
+        if (!useY)
+        {
+            pos.y = startPos.y;
+        }
+
+        if (!useZ)
+        {
+            pos.z = startPos.z;
+        }
+
+        transform.position = pos;
     }
 }
