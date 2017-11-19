@@ -3,6 +3,8 @@
 public class PositionFaceAtPosition : MonoBehaviour
 {
     public bool smooth = true;
+    public bool useZ = true;
+    public float zOffset;
     public float smoothTime = 0.1F;
     public Vector3 velocity = Vector3.zero;
 
@@ -21,11 +23,19 @@ public class PositionFaceAtPosition : MonoBehaviour
     {
         Vector3 cvPos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
 
+        float z = _camDistance;
+
+        if (useZ)
+        {
+            z = cvPos.z / 20f + zOffset;
+        }
+    
         //if (cvPos == Vector3.zero)
         //{
         //    return;
         //}
-            
+
+        Debug.Log(cvPos.z);
 
         if (cvPos.x != 1 && cvPos.y != 1)
         {
@@ -33,11 +43,13 @@ public class PositionFaceAtPosition : MonoBehaviour
 
             if (cvPos == Vector3.zero)
             {
-                pos = Camera.main.ViewportToWorldPoint(new Vector3(lastPos.x, lastPos.y, _camDistance));
+                //pos = Camera.main.ViewportToWorldPoint(new Vector3(lastPos.x, lastPos.y, _camDistance));
+                pos = Camera.main.ViewportToWorldPoint(new Vector3(lastPos.x, lastPos.y, lastPos.z));
             }
             else
             {
-                pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, _camDistance));
+                //pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, _camDistance));
+                pos = Camera.main.ViewportToWorldPoint(new Vector3(cvPos.x, cvPos.y, z));
                 lastPos = pos;
             }
 

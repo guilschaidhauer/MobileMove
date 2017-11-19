@@ -75,7 +75,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 
 
         _faces = new CvCircle[2];
-        NormalizedFacePositions = new List<Vector3>();
+        //NormalizedFacePositions = new List<Vector3>();
         _ready = true;
 
         // This pattern lets us interrupt the work at a safe point if neeeded.
@@ -92,7 +92,7 @@ public class OpenCVFaceDetection : MonoBehaviour
                 }
             }
 
-            NormalizedFacePosition = new Vector2(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f));
+            NormalizedFacePosition = new Vector3(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f), _faces[0].Radius);
         }
         _threadRunning = false;
     }
