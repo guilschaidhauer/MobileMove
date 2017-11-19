@@ -21,6 +21,7 @@ public class RotateToPhoneRotation : MonoBehaviour
             pos.y = -limit;*/
 
         Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
+        //Vector3 newPos = new Vector3(0, 0, pos.x);
 
         transform.localRotation = Quaternion.Euler(newPos);
     }
