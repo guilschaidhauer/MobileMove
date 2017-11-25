@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class BallMovement : MonoBehaviour {
 
+    public Color blue;
+    public Color green;
+    public bool isBlue;
+
+    private Material m_Material;
+
     private Rigidbody myRigidbody;
     private float lastX_force;
     private float lastY_force;
@@ -17,6 +23,8 @@ public class BallMovement : MonoBehaviour {
     void Start ()
     {
         myRigidbody = this.GetComponent<Rigidbody>();
+        m_Material = GetComponent<Renderer>().material;
+        m_Material.color = Color.blue;
 
         lastX_force = 5f;
         lastY_force = 0f;
@@ -70,14 +78,41 @@ public class BallMovement : MonoBehaviour {
             // lastX_force = -lastX_force;
         }
 
-        modifier += 0.1f;
+        //modifier += 0.1f;
     }
 
     void OnTriggerEnter(Collider hit)
     {
         if (hit.gameObject.name == "Goal")
         {
-            Invoke("RestartGame", 2f);
+            //Invoke("RestartGame", 2f);
+        }
+        else if (hit.gameObject.name == "Changer")
+        {
+            int coin = Random.Range(0, 3);
+
+            Debug.LogWarning(coin);
+
+            if (coin == 0 || coin == 1)
+            {
+                SwitchColor();
+            }
+        }
+    }
+
+    void SwitchColor ()
+    {
+        if (isBlue)
+        {
+            m_Material.color = Color.green;
+            isBlue = false;
+            Debug.LogWarning("Blue");
+        }
+        else
+        {
+            m_Material.color = Color.blue;
+            isBlue = true;
+            Debug.LogWarning("Green");
         }
     }
 

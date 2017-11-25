@@ -6,6 +6,7 @@ public class ColorController : MonoBehaviour {
 
     public Color blue;
     public Color green;
+    public bool isBlue;
 
     private Material m_Material;
     private float initialRotation;
@@ -15,8 +16,8 @@ public class ColorController : MonoBehaviour {
     void Start ()
     {
         m_Material = GetComponent<Renderer>().material;
-        m_Material.color = Color.green;
         set = false;
+        isBlue = true;
     }
 	
 	// Update is called once per frame
@@ -32,13 +33,17 @@ public class ColorController : MonoBehaviour {
 
         Debug.Log(pos.x);
 
-        if (pos.x <= initialRotation && pos.x >= initialRotation - 25)
+        //if (pos.x <= initialRotation && pos.x >= initialRotation - 25)
+        if (pos.x - initialRotation <= 0)
         {
-            m_Material.color = blue;
+            m_Material.color = Color.blue;
+            isBlue = true;
         }
-        else if (pos.x > initialRotation && pos.x <= initialRotation + 25)
+        //else if (pos.x > initialRotation && pos.x <= initialRotation + 25)
+        else
         {
-            m_Material.color = green;
+            m_Material.color = Color.green;
+            isBlue = false;
         }
     }
 }
