@@ -20,11 +20,15 @@ public class BallMovement : MonoBehaviour {
     private float modifier;
     private float disModifier;
 
+    private ColorController colorController;
+
     void Start ()
     {
         myRigidbody = this.GetComponent<Rigidbody>();
         m_Material = GetComponent<Renderer>().material;
         m_Material.color = Color.blue;
+
+        colorController = GameObject.FindGameObjectWithTag("Player").GetComponent<ColorController>();
 
         lastX_force = 5f;
         lastY_force = 0f;
@@ -44,7 +48,6 @@ public class BallMovement : MonoBehaviour {
 
         modifier = 1.5f;
         disModifier = 1.5f;
-
     }
 	
 	// Update is called once per frame
@@ -64,6 +67,12 @@ public class BallMovement : MonoBehaviour {
             myRigidbody.velocity = new Vector3(5f * modifier, dist * disModifier);
             lastDist = dist * disModifier;
             lastV = 5f * modifier;
+
+            if (colorController.isBlue != isBlue)
+            {
+                Destroy(myRigidbody);
+                Invoke("RestartGame", 2f);
+            }
         }
         else if (hit.gameObject.name == "Wall")
         {

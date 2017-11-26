@@ -31,8 +31,6 @@ public class ColorController : MonoBehaviour {
             set = true;
         }
 
-        Debug.Log(pos.x);
-
         //if (pos.x <= initialRotation && pos.x >= initialRotation - 25)
         if (pos.x - initialRotation <= 0)
         {
