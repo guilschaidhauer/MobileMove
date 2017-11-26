@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class BallMovement : MonoBehaviour {
 
+    public bool speedUp;
     public Color blue;
     public Color green;
     public bool isBlue;
+    public Text pointsText;
 
     private Material m_Material;
 
@@ -20,10 +23,14 @@ public class BallMovement : MonoBehaviour {
     private float modifier;
     private float disModifier;
 
+    private int points;
+
     private ColorController colorController;
 
     void Start ()
     {
+        speedUp = false;
+        points = 0;
         myRigidbody = this.GetComponent<Rigidbody>();
         m_Material = GetComponent<Renderer>().material;
         m_Material.color = Color.blue;
@@ -73,6 +80,11 @@ public class BallMovement : MonoBehaviour {
                 Destroy(myRigidbody);
                 Invoke("RestartGame", 2f);
             }
+            else
+            {
+                points++;
+                pointsText.text = points.ToString();
+            }
         }
         else if (hit.gameObject.name == "Wall")
         {
@@ -87,20 +99,21 @@ public class BallMovement : MonoBehaviour {
             // lastX_force = -lastX_force;
         }
 
-        //modifier += 0.1f;
+        if(speedUp)
+        {
+            modifier += 0.05f;
+        }
     }
 
     void OnTriggerEnter(Collider hit)
     {
         if (hit.gameObject.name == "Goal")
         {
-            //Invoke("RestartGame", 2f);
+            Invoke("RestartGame", 2f);
         }
         else if (hit.gameObject.name == "Changer")
         {
             int coin = Random.Range(0, 3);
-
-            Debug.LogWarning(coin);
 
             if (coin == 0 || coin == 1)
             {
@@ -115,13 +128,11 @@ public class BallMovement : MonoBehaviour {
         {
             m_Material.color = Color.green;
             isBlue = false;
-            Debug.LogWarning("Blue");
         }
         else
         {
             m_Material.color = Color.blue;
             isBlue = true;
-            Debug.LogWarning("Green");
         }
     }
 
