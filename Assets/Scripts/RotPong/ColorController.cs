@@ -7,6 +7,7 @@ public class ColorController : MonoBehaviour {
     public Color blue;
     public Color green;
     public bool isBlue;
+    public InitialRotHolder myInitialRotHolder;
 
     private Material m_Material;
     private float initialRotation;
@@ -28,6 +29,7 @@ public class ColorController : MonoBehaviour {
         if(!set && pos.z != 0)
         {
             initialRotation = MobileDetection.NormalizedFacePosition.x;
+            //initialRotation = myInitialRotHolder.initialRotation;
             set = true;
         }
 
