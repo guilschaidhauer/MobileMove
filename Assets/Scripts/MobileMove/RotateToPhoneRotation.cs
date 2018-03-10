@@ -10,6 +10,10 @@ public class RotateToPhoneRotation : MonoBehaviour
 
     private float cumulativeAdjustment;
 
+    private float lastCheckpoint;
+    private bool hitLimit;
+    private bool downLeft;
+
     public void Start ()
     {
         if (adjust)
@@ -27,23 +31,24 @@ public class RotateToPhoneRotation : MonoBehaviour
     {
         Vector3 pos = new Vector3(MobileDetection.NormalizedFacePosition.x, MobileDetection.NormalizedFacePosition.y, MobileDetection.NormalizedFacePosition.z);
 
+        float acceleration = pos.x;
+
+        if (acceleration > 0.5f)
+        {
+            Debug.Log("->");
+        }
+        else if (acceleration < -0.5f)
+        {
+            Debug.Log("<-");
+        }
+
         if (adjust)
             pos.x += cumulativeAdjustment;
 
-        //Vector3 newPos = new Vector3(pos.z * -1, 0, 0);
-        //Vector3 newPos = new Vector3(0, 0, pos.y);
-
-        ///Vector3 newPos = new Vector3(pos.z * -1, 0, pos.y * -1);
-
         //Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
+        Vector3 newPos = new Vector3(0, 0, pos.y);
 
-        /*if (pos.y > limit)
-            pos.y = limit;
-        else if (pos.y < -limit)
-            pos.y = -limit;*/
-
-        Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
-        //Vector3 newPos = new Vector3(0, 0, pos.x);
+        //Debug.Log(newPos.z);
 
         transform.localRotation = Quaternion.Euler(newPos);
     }

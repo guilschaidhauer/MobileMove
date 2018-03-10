@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraInitializer : MonoBehaviour {
 
+
+
 	void Start ()
     {
         StartCameraCapture();        
@@ -11,6 +13,6 @@ public class CameraInitializer : MonoBehaviour {
 
     void StartCameraCapture ()
     {
-        System.Diagnostics.Process.Start("Sockets.exe");
+        //System.Diagnostics.Process.Start("Sockets.exe");
     }
 }
