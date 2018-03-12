@@ -39,13 +39,25 @@ public class RotateToPhoneRotation : MonoBehaviour
         //Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
 
         //Quaternion myQuaternion = new Quaternion(pos.x, pos.y, pos.z, pos.w);
-        //Quaternion myQuaternion = new Quaternion(0, -pos.z, 0, pos.w);
-        //Quaternion myQuaternion = new Quaternion(-pos.x, 0, 0, pos.w);
-        //Quaternion myQuaternion = new Quaternion(0, 0, -pos.y, pos.w);
+        //Quaternion myQuaternion = new Quaternion(0, -pos.z, 0, pos.w);    //-30
+        //Quaternion myQuaternion = new Quaternion(-pos.x, 0, 0, pos.w);    //90
+        Quaternion myQuaternion = new Quaternion(0, 0, -pos.y, pos.w);      //-15
 
-        Quaternion myQuaternion = new Quaternion(-pos.x, -pos.z, -pos.y, -pos.w);
+        //Quaternion myQuaternion = new Quaternion(-pos.x, -pos.z, -pos.y, pos.w);
+
+        //Quaternion myQuaternion = new Quaternion(pos.x, pos.z, pos.y, -pos.w);
 
         //transform.localRotation = Quaternion.Euler(newPos);
+        //transform.localRotation = myQuaternion;
+
         transform.localRotation = myQuaternion;
+
+        //Vector3 inEuler = myQuaternion.eulerAngles;
+
+        //inEuler = new Vector3(inEuler.x, 0, 0);
+
+        //Quaternion inQuaternion = Quaternion.Euler(inEuler);
+
+        //transform.localRotation = inQuaternion;
     }
 }
