@@ -38,10 +38,10 @@ public class RotateToPhoneRotation : MonoBehaviour
 
         //Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
 
-        //Quaternion myQuaternion = new Quaternion(pos.x, pos.y, pos.z, pos.w);
+        Quaternion myQuaternion = new Quaternion(pos.x, pos.y, pos.z, pos.w);
         //Quaternion myQuaternion = new Quaternion(0, -pos.z, 0, pos.w);    //-30
         //Quaternion myQuaternion = new Quaternion(-pos.x, 0, 0, pos.w);    //90
-        Quaternion myQuaternion = new Quaternion(0, 0, -pos.y, pos.w);      //-15
+        //Quaternion myQuaternion = new Quaternion(0, 0, -pos.y, pos.w);      //-15
 
         //Quaternion myQuaternion = new Quaternion(-pos.x, -pos.z, -pos.y, pos.w);
 
