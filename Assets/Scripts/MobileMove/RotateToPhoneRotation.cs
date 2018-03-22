@@ -34,14 +34,44 @@ public class RotateToPhoneRotation : MonoBehaviour
         if (adjust)
             pos.x += cumulativeAdjustment;
 
-        Debug.Log(pos);
+        //This is where I create a quaterion out of the values I get from the android phone
+        Quaternion myQuaternion = new Quaternion(-pos.x, -pos.y, pos.z, pos.w);
 
-        //Vector3 newPos = new Vector3(pos.z, pos.x, pos.y);
 
-        Quaternion myQuaternion = new Quaternion(pos.x, pos.y, pos.z, pos.w);
-        //Quaternion myQuaternion = new Quaternion(0, -pos.z, 0, pos.w);    //-30
-        //Quaternion myQuaternion = new Quaternion(-pos.x, 0, 0, pos.w);    //90
-        //Quaternion myQuaternion = new Quaternion(0, 0, -pos.y, pos.w);      //-15
+        //This is where I set the location rotation of the object to the "adjusted" quaterion
+        transform.localRotation = myQuaternion;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ *       This is where I use the values I got from the Android phone to create a quaternion
+         Quaternion myQuaternion = new Quaternion(pos.x, pos.y, pos.z, pos.w);
+         Quaternion myQuaternion = new Quaternion(0, -pos.z, 0, pos.w);    
+         Quaternion myQuaternion = new Quaternion(-pos.x, 0, 0, pos.w);    
 
         //Quaternion myQuaternion = new Quaternion(-pos.x, -pos.z, -pos.y, pos.w);
 
@@ -59,5 +89,4 @@ public class RotateToPhoneRotation : MonoBehaviour
         //Quaternion inQuaternion = Quaternion.Euler(inEuler);
 
         //transform.localRotation = inQuaternion;
-    }
-}
+*/
