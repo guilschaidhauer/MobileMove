@@ -30,8 +30,9 @@ public class PositionFaceAtPosition : MonoBehaviour
     void Update()
     {
         Vector3 cvPos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
+        int on = (int)OpenCVFaceDetection.NormalizedFacePosition.w;
 
-
+        Debug.Log(OpenCVFaceDetection.NormalizedFacePosition);
 
         cvPos.z = cvPos.z / 20f + zOffset;
 

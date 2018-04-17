@@ -8,7 +8,7 @@ public class OpenCVFaceDetection : MonoBehaviour
 {
     public bool destroy = false;
     public static List<Vector3> NormalizedFacePositions { get; private set; }
-    public static Vector3 NormalizedFacePosition { get; private set; }
+    public static Vector4 NormalizedFacePosition { get; private set; }
 
 
     /// <summary>
@@ -92,7 +92,7 @@ public class OpenCVFaceDetection : MonoBehaviour
                 }
             }
 
-            NormalizedFacePosition = new Vector3(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f), _faces[0].Radius);
+            NormalizedFacePosition = new Vector4(((float)(640 - _faces[0].X) * DetectionDownScale) / 640f, 1f - (((float)_faces[0].Y * DetectionDownScale) / 480f), _faces[0].Radius, _faces[0].On);
         }
         _threadRunning = false;
     }
@@ -149,5 +149,5 @@ internal static class OpenCVInterop
 [StructLayout(LayoutKind.Sequential, Size = 12)]
 public struct CvCircle
 {
-    public int X, Y, Radius;
+    public int X, Y, Radius, On;
 }
