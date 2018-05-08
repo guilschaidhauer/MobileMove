@@ -144,7 +144,7 @@ public class SpheresManager : MonoBehaviour {
 
     void RestartGame ()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     bool checkCollision(Vector3 x, Vector3 y)

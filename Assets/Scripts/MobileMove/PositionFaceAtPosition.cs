@@ -20,11 +20,15 @@ public class PositionFaceAtPosition : MonoBehaviour
 
     void Awake ()
     {
-        lightSphere = transform.GetChild(0).gameObject;
+        if (transform.childCount > 0)
+        {
+            lightSphere = transform.GetChild(0).gameObject;
+            m_Material = lightSphere.GetComponent<Renderer>().material;
+            m_Material.color = Color.green;
+        }
+
         lastPos = Vector3.one;
         startPos = transform.position;
-        m_Material = lightSphere.GetComponent<Renderer>().material;
-        m_Material.color = Color.green;
     }
 
     void Start()
@@ -40,10 +44,10 @@ public class PositionFaceAtPosition : MonoBehaviour
 
         Debug.Log(OpenCVFaceDetection.NormalizedFacePosition);
 
-        if (OpenCVFaceDetection.NormalizedFacePosition.w == 0)
-            m_Material.color = Color.green;
-        else if (OpenCVFaceDetection.NormalizedFacePosition.w == 1)
-            m_Material.color = Color.yellow;
+        //if (OpenCVFaceDetection.NormalizedFacePosition.w == 0)
+        //    m_Material.color = Color.green;
+        //else if (OpenCVFaceDetection.NormalizedFacePosition.w == 1)
+        //    m_Material.color = Color.yellow;
 
         cvPos.z = cvPos.z / 20f + zOffset;
 
