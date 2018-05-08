@@ -31,6 +31,8 @@ public class RotateToPhoneRotation : MonoBehaviour
     {
         Vector4 pos = new Vector4(MobileDetection2.NormalizedFacePosition.x / 10000f, MobileDetection2.NormalizedFacePosition.y / 10000f, MobileDetection2.NormalizedFacePosition.z / 10000f, MobileDetection2.NormalizedFacePosition.w / 10000f);
 
+        Debug.Log(pos);
+
         if (adjust)
             pos.x += cumulativeAdjustment;
 

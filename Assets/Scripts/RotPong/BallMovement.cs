@@ -138,6 +138,6 @@ public class BallMovement : MonoBehaviour {
 
     void RestartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }
