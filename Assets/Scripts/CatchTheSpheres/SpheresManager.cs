@@ -22,6 +22,11 @@ public class SpheresManager : MonoBehaviour {
     public GameObject sphere;
 
     public Text catchedText;
+    public Text livesText;
+    public GameObject buttom;
+
+    public AudioSource audioSource1;
+    public AudioSource audioSource2;
 
     private List<GameObject> spheres;
     private List<float> speeds;
@@ -43,9 +48,11 @@ public class SpheresManager : MonoBehaviour {
             CreateSphere();
         }
 
+        livesText.text = lives.ToString();
+
         //InvokeRepeating("CreateSphere", intervalTime, intervalTime);
 
-        gameOn = true;
+        //gameOn = true;
     }
 	
 	// Update is called once per frame
@@ -54,13 +61,19 @@ public class SpheresManager : MonoBehaviour {
         if (gameOn)
         {
             MoveSpheres();
-        }
 
-        if (Time.time >= lastCreationTime + intervalTime)
-        {
-            CreateSphere();
-            lastCreationTime = Time.time;
+            if (Time.time >= lastCreationTime + intervalTime)
+            {
+                CreateSphere();
+                lastCreationTime = Time.time;
+            }
         }
+    }
+
+    public void StartGame ()
+    {
+        buttom.SetActive(false);
+        gameOn = true;
     }
 
     void CreateSphere ()
@@ -100,16 +113,18 @@ public class SpheresManager : MonoBehaviour {
                     minSpeed = 0.05f;
                     maxSpeed = 0.08f;
                 }
-                else if (catchedSpheres >= 70)
+                else if (catchedSpheres >= 50)
                 {
-
+                    minSpeed = 0.06f;
+                    maxSpeed = 0.09f;
                 }
                 else if (catchedSpheres >= 100)
                 {
-
+                    minSpeed = 0.07f;
+                    maxSpeed = 0.1f;
                 }
 
-                intervalTime -= 0.005f;
+                intervalTime -= 0.0075f;
 
                 RemoveSphereFromList(i);
             }
@@ -127,10 +142,14 @@ public class SpheresManager : MonoBehaviour {
 
         lives--;
 
+        livesText.text = lives.ToString();
+
+        audioSource2.Play();
+
         if (lives <= 0)
         {
             gameOn = false;
-            Invoke("RestartGame", 2f);
+            Invoke("RestartGame", 1.5f);
         }
     }
 
@@ -144,13 +163,14 @@ public class SpheresManager : MonoBehaviour {
 
     void RestartGame ()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     bool checkCollision(Vector3 x, Vector3 y)
     {
         if (Mathf.Sqrt((y.x - x.x) * (y.x - x.x) + (y.y - x.y) * (y.y - x.y)) < (0.5f + 0.332f))
         {
+            audioSource1.Play();
             return true;
         }
 

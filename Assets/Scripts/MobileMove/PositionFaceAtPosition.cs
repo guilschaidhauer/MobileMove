@@ -42,7 +42,7 @@ public class PositionFaceAtPosition : MonoBehaviour
         Vector3 cvPos = new Vector3(OpenCVFaceDetection.NormalizedFacePosition.x, OpenCVFaceDetection.NormalizedFacePosition.y, OpenCVFaceDetection.NormalizedFacePosition.z);
         int on = (int)OpenCVFaceDetection.NormalizedFacePosition.w;
 
-        Debug.Log(OpenCVFaceDetection.NormalizedFacePosition);
+        //Debug.Log(OpenCVFaceDetection.NormalizedFacePosition);
 
         //if (OpenCVFaceDetection.NormalizedFacePosition.w == 0)
         //    m_Material.color = Color.green;
